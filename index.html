@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodePulse - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="flex items-center justify-center h-screen">
+    <div class="w-full max-w-md">
+      <h2 class="text-center text-3xl font-bold">Bem-vindo ao CodePulse</h2>
+      <form id="loginForm" class="mt-8 bg-gray-800 p-6 rounded">
+        <div class="mb-4">
+          <label for="name" class="block mb-2">Nome:</label>
+          <input type="text" id="name" name="name" class="w-full p-2 rounded bg-gray-700" required>
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block mb-2">Email:</label>
+          <input type="email" id="email" name="email" class="w-full p-2 rounded bg-gray-700" required>
+        </div>
+        <button type="submit" class="w-full bg-blue-500 p-2 rounded">Entrar</button>
+      </form>
+      <div class="mt-4 text-center">
+        <a href="admin.html" class="underline text-blue-300">Admin</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const response = await fetch('http://localhost:8000/functions/code_4bc86c/create_user', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ name, email })
+      });
+      const data = await response.json();
+      if(data.status === 'success') {
+        alert('Usuário registrado com ID: ' + data.id);
+      } else {
+        alert('Erro: ' + data.message);
+      }
+    });
+  </script>
+</body>
+</html>
